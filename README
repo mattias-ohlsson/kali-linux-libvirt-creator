@@ -1,0 +1,9 @@
+     kali-workstation-libvirt - Kali Workstation Libvirt
+
+Build Kali Linux for Libvirt.
+
+https://github.com/mattias-ohlsson/kali-workstation-libvirt
+
+BUILD
+
+    make
