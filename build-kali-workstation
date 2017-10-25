@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -e
+
+name="kali-workstation"
+disk_path="$HOME/$name.qcow2"
+disk_size=40
+
+keymap="us"
+mirror="http.kali.org"
+
+if [ -f "kali-workstation.conf" ]; then
+	source kali-workstation.conf
+fi
+
+virsh -q destroy $name 2>/dev/null ||:
+virsh -q undefine $name 2>/dev/null ||:
+
+if [ -f "$disk_path" ]; then
+	rm -f "$disk_path"
+fi
+
+virt-install --location=http://$mirror/kali/dists/kali-rolling/main/installer-amd64/ \
+ --name $name --memory 2048 --disk "path=$disk_path,size=$disk_size" \
+ --vcpus 2 --os-type linux --os-variant debiantesting --debug --noreboot \
+ --initrd-inject=preseed.cfg \
+ --extra-args="priority=critical keymap=$keymap mirror/http/hostname=$mirror"
+
+ls -l "$disk_path"
