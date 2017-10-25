@@ -7,3 +7,7 @@ https://github.com/mattias-ohlsson/kali-workstation-libvirt
 BUILD
 
     make
+
+CONFIGURATION
+
+    Add custom configuration to "kali-workstation.conf".
