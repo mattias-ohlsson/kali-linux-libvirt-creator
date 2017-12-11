@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sed -i 's|#  AutomaticLogin|AutomaticLogin|g' /target/etc/gdm3/daemon.conf
+echo -e "[org.gnome.desktop.screensaver]\nlock-enabled=false" > /target/usr/share/glib-2.0/schemas/30_defaults.gschema.override
