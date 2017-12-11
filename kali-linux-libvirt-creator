@@ -2,15 +2,17 @@
 
 set -e
 
-name="kali-workstation"
-disk_path="$HOME/$name.qcow2"
+name="kali-linux"
+disk_path="$name.qcow2"
 disk_size=40
+memory=2048 
+vcpus=2
 
 keymap="us"
 mirror="http.kali.org"
 
-if [ -f "kali-workstation.conf" ]; then
-	source kali-workstation.conf
+if [ -f "/etc/kali-linux-libvirt-creator/kali-linux-libvirt-creator.conf" ]; then
+	source /etc/kali-linux-libvirt-creator/kali-linux-libvirt-creator.conf
 fi
 
 virsh -q destroy $name 2>/dev/null ||:
@@ -21,9 +23,21 @@ if [ -f "$disk_path" ]; then
 fi
 
 virt-install --location=http://$mirror/kali/dists/kali-rolling/main/installer-amd64/ \
- --name $name --memory 2048 --disk "path=$disk_path,size=$disk_size" \
- --vcpus 2 --os-type linux --os-variant debiantesting --debug --noreboot \
- --initrd-inject=preseed.cfg \
- --extra-args="priority=critical keymap=$keymap mirror/http/hostname=$mirror"
+ --name $name --memory $memory --disk "path=$disk_path,size=$disk_size" \
+ --vcpus $vcpus --os-type linux --os-variant debiantesting --debug --noreboot \
+ --initrd-inject=/etc/kali-linux-libvirt-creator/preseed.cfg \
+ --initrd-inject=/usr/lib/kali-linux-libvirt-creator/preseed-late-command \
+ --noautoconsole --wait -1 \
+ --extra-args="priority=critical keymap=$keymap"
 
+# Show disk size
+ls -l "$disk_path"
+
+# Sparsify
+tmp_disk_path=$(mktemp --dry-run --suffix=.qcow2 --tmpdir=$(dirname "$disk_path"))
+mv "$disk_path" "$tmp_disk_path"
+virt-sparsify --compress "$tmp_disk_path" "$disk_path"
+rm "$tmp_disk_path"
+
+# Show disk size
 ls -l "$disk_path"
