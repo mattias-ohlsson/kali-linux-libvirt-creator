@@ -1,13 +1,25 @@
-     kali-workstation-libvirt - Kali Workstation Libvirt
+     kali-linux-libvirt-creator - Kali Linux Libvirt Creator
 
 Build Kali Linux for Libvirt.
 
-https://github.com/mattias-ohlsson/kali-workstation-libvirt
+https://github.com/mattias-ohlsson/kali-linux-libvirt-creator
 
-BUILD
+INSTALL
 
-    make
+    make install
+
+UNINSTALL
+
+    rm -f /usr/bin/kali-linux-libvirt-creator
+    rm -rf /etc/kali-linux-libvirt-creator
+    rm -rf /usr/lib/kali-linux-libvirt-creator
 
 CONFIGURATION
 
-    Add custom configuration to "kali-workstation.conf".
+    Add custom configuration to this file.
+
+  - /etc/kali-linux-libvirt-creator/kali-linux-libvirt-creator.conf
+
+ROOT PASSWORD
+
+    toor
