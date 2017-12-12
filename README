@@ -19,7 +19,3 @@ CONFIGURATION
     Add custom configuration to this file.
 
   - /etc/kali-linux-libvirt-creator/kali-linux-libvirt-creator.conf
-
-ROOT PASSWORD
-
-    toor
